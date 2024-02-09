@@ -162,12 +162,12 @@ class Job:
         if directives:
             body += "\n\n" + directives
         if self.commands:
-            body += "\n" + self._commands_str()
+            body += "\n\n" + self._commands_str()
         return body
 
     def get_full_command(self) -> str:
         cmd = "\n".join(
-            (f"sbatch --parsable {self._dep_str()} <<EOF", str(self), "EOF")
+            (f"sbatch --parsable {self._dep_str()} <<EOF", self.get_script_body(), "EOF")
         )
         return cmd
 
