@@ -166,8 +166,11 @@ class Job:
         return body
 
     def get_full_command(self) -> str:
+        dep_str = self._dep_str()
+        if dep_str:
+            dep_str += ' '
         cmd = "\n".join(
-            (f"sbatch --parsable {self._dep_str()} <<EOF", self.get_script_body(), "EOF")
+            (f"sbatch --parsable {dep_str}<<\'EOF\'", self.get_script_body(), "EOF")
         )
         return cmd
 
@@ -189,7 +192,6 @@ class Job:
         assert len(jobid) > 0, jobid
         self._job_id = int(jobid)
         print(f"{f'{self.name}: ' if self.name else ''}Submitted batch job {jobid}")
-
         return self
 
     # Private methods
