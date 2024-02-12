@@ -126,3 +126,8 @@ print(job1.job_id, job2.job_id)
 ```
 If not submitted yet `job_id` will be `None`.
 
+## API Documentation
+More details on methods and functions can be found in the the [doc/](doc/) directory. The
+documentations was generateded using [pdoc](https://pdoc3.github.io/pdoc/). Just
+open the [doc/slurmpy/index.html](doc/slurmpy/index.html) file 
+
