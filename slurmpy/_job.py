@@ -1,9 +1,17 @@
 # import os
 from __future__ import annotations
-from typing import Optional, Sequence, Self
 from collections import defaultdict
 from collections.abc import Iterable
 import subprocess
+
+from typing import Optional, Sequence
+
+try:  # python >=3.11
+    from typing import Self
+except ImportError:
+    from typing import TypeVar
+
+    Self = TypeVar("Self")
 
 
 class Job:
@@ -34,7 +42,11 @@ class Job:
     _dep_sep: str  # Default ','
 
     def __init__(
-        self, name="", shebang="/bin/bash -l", commands: list[str] = None, **kwargs
+        self: Self,  # type: ignore
+        name="",
+        shebang="/bin/bash -l",
+        commands: list[str] = None,
+        **kwargs,
     ) -> None:
         """
         Parameters
@@ -83,7 +95,7 @@ class Job:
             print("[WARNING] Job has not been submitted yet!")
         return self._job_id
 
-    def add_arguments(self, **kwargs) -> Self:
+    def add_arguments(self: Self, **kwargs) -> Self:  # type: ignore
         """Add an argument to sbatch.
 
         Parameters
@@ -122,7 +134,7 @@ class Job:
             self._args[key] = value
         return self
 
-    def remove_arguments(self, *args: str) -> Self:
+    def remove_arguments(self: Self, *args: str) -> Self:  # type: ignore
         """Add an argument to sbatch.
 
         Parameters
@@ -144,7 +156,7 @@ class Job:
                 self._args.pop(key)
         return self
 
-    def add_account(self, account: str) -> Self:
+    def add_account(self: Self, account: str) -> Self:  # type: ignore
         """Add an account argument to `sbatch`, i.e. `--account`.
 
         Parameters
@@ -180,8 +192,11 @@ class Job:
         )
 
     def add_dependency(
-        self, after: str, dep: Job | str | int, time: Optional[int | str] = None
-    ) -> Self:
+        self: Self,  # type: ignore
+        after: str,
+        dep: Job | str | int,
+        time: Optional[int | str] = None,
+    ) -> Self:  # type: ignore
         """Adds a dependency to this job. The dependency can be a string or an int
         inticating the job id if the dependency. In the case of a dependency that
         has not been submitted yet, the dependency can be a different object of this
@@ -228,7 +243,7 @@ class Job:
         self._deps.append((after, dep, time))
         return self
 
-    def add_singleton_dependency(self) -> Self:
+    def add_singleton_dependency(self: Self) -> Self:  # type: ignore
         """Adds a singleton dependency to this job.
 
         Returns
@@ -238,7 +253,7 @@ class Job:
         """
         self._deps.append(("singleton", None, None))
 
-    def add_commands(self, *commands: str) -> Self:
+    def add_commands(self: Self, *commands: str) -> Self:  # type: ignore
         """Add commands that will be excecuted when the job begins. Each command
         must be a valid command of the shell that is being used, i.e. bash by default.
         Also, each command will be treated as a seperate line in the equivalent shell
@@ -272,7 +287,7 @@ class Job:
         """
         self.commands.extend(commands)
 
-    def set_dependency_sep(self, sep: str) -> Self:
+    def set_dependency_sep(self: Self, sep: str) -> Self:  # type: ignore
         """Change the dependencies seperator (',' or '?').
 
         Parameters
@@ -369,7 +384,7 @@ class Job:
         )
         return cmd
 
-    def submit(self) -> Self:
+    def submit(self) -> Self:  # type: ignore
         """Submits this corrend job. In case of dependencies that were pass as `Job`
         objects, the `submit` method will be executed for the all the dependencies that
         were not submitted.
