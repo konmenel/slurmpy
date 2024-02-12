@@ -7,7 +7,18 @@ import subprocess
 
 
 class Job:
-    """_summary_"""
+    """Object that manages the job creation and submission of `sbatch`.
+
+    Attributes
+    ----------
+    name : str
+        Optional, each job can have a name identification purposes.
+    shebang : str
+        The shebang that will be used in the submission script.
+    commands : list of str
+        A list of the commands that will be excecuted when the job is
+        allocated.
+    """
 
     # Public
     name: str
@@ -23,11 +34,29 @@ class Job:
     _dep_sep: str  # Default ','
 
     def __init__(
-        self, name="", shebang="/bin/bash -l", commands=None, **kwargs
+        self, name="", shebang="/bin/bash -l", commands: list[str] = None, **kwargs
     ) -> None:
+        """
+        Parameters
+        ----------
+        name : str, optional
+            Optional, each job can have a name identification purposes, by default "".
+        shebang : str, optional
+            The shebang that will be used in the submission script, by default
+            "/bin/bash -l".
+        commands : list of str, optional
+            A list of the commands that will be excecuted when the script
+            is submitted, by default None.
+        **kwargs
+            Any argument of `sbatch` may be passed as a key word argument. However, to
+            keep with python syntax, any hyphen (-) would be replaced with unterscore
+            (_). Also, the starting hyphen or double hyphen (`-` or `--`) be be omitted.
+            For instance, the arguments `--ntasks=1`, `--cpus-per-task=10` may be passed
+            when creating the object as `Job(ntasks=1, cpus_per_task=10)`.
+        """
         self.name = name
         self.shebang = shebang
-        self.commands = commands if commands is not None else []
+        self.commands = list(commands) if commands is not None else []
         self._job_id = None
         self._deps = []
         self._dep_sep = ","
@@ -39,11 +68,17 @@ class Job:
             self._args[key] = value
 
     @property
-    def args(self) -> dict:
+    def args(self) -> dict[str, Optional[str]]:
+        """dict with str keys and optional str values : The dictionary of all arguments
+        that will be passed to sbatch using the `SBATCH` directive.
+        """
         return self._args
 
     @property
     def job_id(self) -> Optional[int]:
+        """int or None :  The id of the submitted job. If the job has not been
+        submitted yet `None` is returned.
+        """
         if self._job_id is None:
             print("[WARNING] Job has not been submitted yet!")
         return self._job_id
@@ -51,10 +86,19 @@ class Job:
     def add_arguments(self, **kwargs) -> Self:
         """Add an argument to sbatch.
 
+        Parameters
+        ----------
+        **kwargs
+            Any argument of `sbatch` may be passed as a key word argument. However, to
+            keep with python syntax, any hyphen (-) would be replaced with unterscore
+            (_). Also, the starting hyphen or double hyphen (`-` or `--`) be be omitted.
+            For instance, the arguments `--ntasks=1`, `--cpus-per-task=10` may be passed
+            as `job.add_arguments(ntasks=1, cpus_per_task=10)`.
+
         Returns
         -------
         Self
-            Returns the `self` instance
+            Returns the `self` instance.
 
         Examples
         --------
@@ -78,6 +122,28 @@ class Job:
             self._args[key] = value
         return self
 
+    def remove_arguments(self, *args: str) -> Self:
+        """Add an argument to sbatch.
+
+        Parameters
+        ----------
+        *args : unpacked list of str
+            Any argument of `sbatch` may be passed as a key word argument. Also,
+            the starting hyphen or double hyphen (`-` or `--`) be be omitted. For
+            instance, the arguments `--ntasks`, `--cpus-per-task` may be removed
+            like by calling `job.remove_arguments("ntasks", "cpus-per-tasks")`.
+
+        Returns
+        -------
+        Self
+            Returns the `self` instance.
+        """
+        for key in args:
+            key = self._parse_argname(key)
+            if key in self._args:
+                self._args.pop(key)
+        return self
+
     def add_account(self, account: str) -> Self:
         """Add an account argument to `sbatch`, i.e. `--account`.
 
@@ -89,7 +155,7 @@ class Job:
         Returns
         -------
         Self
-            Returns the `self` instance
+            Returns the `self` instance.
         """
         for arg in ("-A", "--account"):
             if arg in self._args:
@@ -113,7 +179,7 @@ class Job:
             (self._arg_to_str(key, value) for key, value in self._args.items())
         )
 
-    def add_dependencies_job(
+    def add_dependency(
         self, after: str, dep: Job | str | int, time: Optional[int | str] = None
     ) -> Self:
         """Adds a dependency to this job. The dependency can be a string or an int
@@ -145,7 +211,7 @@ class Job:
         Returns
         -------
         Self
-            Returns the `self` instance
+            Returns the `self` instance.
         """
         if after == "singleton":
             return self.add_singleton_dependency()
@@ -168,7 +234,7 @@ class Job:
         Returns
         -------
         Self
-            Returns the `self` instance
+            Returns the `self` instance.
         """
         self._deps.append(("singleton", None, None))
 
@@ -186,7 +252,7 @@ class Job:
         Returns
         -------
         Self
-            Returns the `self` instance
+            Returns the `self` instance.
 
         Examples
         --------
@@ -217,7 +283,7 @@ class Job:
         Returns
         -------
         Self
-            Returns the `self` instance
+            Returns the `self` instance.
         """
         if sep not in (",", "?"):
             print("Only ',' , '?' dependency seperators may be used!")
@@ -311,7 +377,7 @@ class Job:
         Returns
         -------
         Self
-            Returns the `self` instance
+            Returns the `self` instance.
         """
         for _, dep, _ in self._deps:
             if isinstance(dep, Job) and dep._job_id is None:
@@ -328,6 +394,7 @@ class Job:
     # Private methods
     @staticmethod
     def _parse_argname(arg: str) -> str:
+        arg = arg.lstrip("_")
         if len(arg) > 1:
             true_arg = arg.replace("_", "-")
             return f"--{true_arg}"
