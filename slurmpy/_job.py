@@ -3,30 +3,15 @@ from __future__ import annotations
 from collections import defaultdict
 from collections.abc import Iterable
 import subprocess
-
 from typing import Optional, Sequence
-
-try:  # python >=3.11
+try:
     from typing import Self
 except ImportError:
-    from typing import TypeVar
-
-    Self = TypeVar("Self")
+    from ._self_type import Self
 
 
 class Job:
-    """Object that manages the job creation and submission of `sbatch`.
-
-    Attributes
-    ----------
-    name : str
-        Optional, each job can have a name identification purposes.
-    shebang : str
-        The shebang that will be used in the submission script.
-    commands : list of str
-        A list of the commands that will be excecuted when the job is
-        allocated.
-    """
+    """Object that manages the job creation and submission of `sbatch`."""
 
     # Public
     name: str
@@ -36,13 +21,11 @@ class Job:
     # Private
     _job_id: Optional[int]
     _args: dict[str, Optional[str]]
-    # _deps format: (<after>, <job-instance>, <time>)
-    # i.e. ('ok', jobx, None) or ('', jobx, 10)
-    _deps: list[tuple[str, Job | str, Optional[int]]]
+    _deps: dict[str, list[tuple[Job | str, Optional[int]]]]
     _dep_sep: str  # Default ','
 
     def __init__(
-        self: Self,  # type: ignore
+        self,
         name="",
         shebang="/bin/bash -l",
         commands: list[str] = None,
@@ -65,12 +48,40 @@ class Job:
             (_). Also, the starting hyphen or double hyphen (`-` or `--`) be be omitted.
             For instance, the arguments `--ntasks=1`, `--cpus-per-task=10` may be passed
             when creating the object as `Job(ntasks=1, cpus_per_task=10)`.
+
+        Examples
+        --------
+        ```python
+        from slurmpy import Job
+
+        job = Job(
+            commands=["echo hello", "echo world"],
+            account="myaccount",
+            ntasks=2,
+            cpus_per_task=20,
+            t="00:10:00"
+        )
+        job.submit()
+        ```
+
+        The python code is equivalent to the bash script below:
+        ```bash
+        #!/bin/bash -l
+
+        #SBATCH --account=myaccount
+        #SBATCH --ntasks=2
+        #SBATCH --cpus-per-task=20
+        #SBATCH -t 00:10:00
+
+        echo hello
+        echo world
+        ```
         """
         self.name = name
         self.shebang = shebang
         self.commands = list(commands) if commands is not None else []
         self._job_id = None
-        self._deps = []
+        self._deps = defaultdict(list)
         self._dep_sep = ","
 
         self._args = {}
@@ -95,7 +106,35 @@ class Job:
             print("[WARNING] Job has not been submitted yet!")
         return self._job_id
 
-    def add_arguments(self: Self, **kwargs) -> Self:  # type: ignore
+    @property
+    def dep_sep(self) -> str:
+        """The dependencies seperator, either ',' or '?'."""
+        return self._dep_sep
+
+    @dep_sep.setter
+    def dep_sep(self, sep: str) -> None:
+        if sep not in (",", "?"):
+            print("Only ',' , '?' dependency seperators may be used!")
+            return self
+        self._dep_sep = sep
+
+    def set_dependency_sep(self, sep: str) -> Self:
+        """Change the dependencies seperator to ',' or '?'.
+
+        Parameters
+        ----------
+        sep : str
+            The seperator.
+
+        Returns
+        -------
+        Job
+            Returns the `self` instance.
+        """
+        self.dep_sep = sep
+        return self
+
+    def add_arguments(self, **kwargs) -> Self:
         """Add an argument to sbatch.
 
         Parameters
@@ -109,7 +148,7 @@ class Job:
 
         Returns
         -------
-        Self
+        Job
             Returns the `self` instance.
 
         Examples
@@ -134,7 +173,7 @@ class Job:
             self._args[key] = value
         return self
 
-    def remove_arguments(self: Self, *args: str) -> Self:  # type: ignore
+    def remove_arguments(self, *args: str) -> Self:
         """Add an argument to sbatch.
 
         Parameters
@@ -147,7 +186,7 @@ class Job:
 
         Returns
         -------
-        Self
+        Job
             Returns the `self` instance.
         """
         for key in args:
@@ -156,7 +195,7 @@ class Job:
                 self._args.pop(key)
         return self
 
-    def add_account(self: Self, account: str) -> Self:  # type: ignore
+    def add_account(self, account: str) -> Self:
         """Add an account argument to `sbatch`, i.e. `--account`.
 
         Parameters
@@ -166,7 +205,7 @@ class Job:
 
         Returns
         -------
-        Self
+        Job
             Returns the `self` instance.
         """
         for arg in ("-A", "--account"):
@@ -192,14 +231,14 @@ class Job:
         )
 
     def add_dependency(
-        self: Self,  # type: ignore
+        self,
         after: str,
         dep: Job | str | int,
         time: Optional[int | str] = None,
-    ) -> Self:  # type: ignore
+    ) -> Self:
         """Adds a dependency to this job. The dependency can be a string or an int
         inticating the job id if the dependency. In the case of a dependency that
-        has not been submitted yet, the dependency can be a different object of this
+        has not been submitted yet, the dependency can be a different object of the
         `Job` class.
 
         Parameters
@@ -225,9 +264,12 @@ class Job:
 
         Returns
         -------
-        Self
+        Job
             Returns the `self` instance.
         """
+        if dep is self:
+            print("[WARNING] Dependency cannot be the same some job as this one.")
+            return self
         if after == "singleton":
             return self.add_singleton_dependency()
         if after is None:
@@ -238,22 +280,22 @@ class Job:
             dep = str(dep)
         if after and time:
             time = None
-
-        after = after.lower()
-        self._deps.append((after, dep, time))
+        after = f"after{after.lower()}"
+        self._deps[after].append((dep, time))
         return self
 
-    def add_singleton_dependency(self: Self) -> Self:  # type: ignore
+    def add_singleton_dependency(self) -> Self:
         """Adds a singleton dependency to this job.
 
         Returns
         -------
-        Self
+        Job
             Returns the `self` instance.
         """
-        self._deps.append(("singleton", None, None))
+        self._deps["singleton"] = []
+        return self
 
-    def add_commands(self: Self, *commands: str) -> Self:  # type: ignore
+    def add_commands(self, *commands: str) -> Self:
         """Add commands that will be excecuted when the job begins. Each command
         must be a valid command of the shell that is being used, i.e. bash by default.
         Also, each command will be treated as a seperate line in the equivalent shell
@@ -266,7 +308,7 @@ class Job:
 
         Returns
         -------
-        Self
+        Job
             Returns the `self` instance.
 
         Examples
@@ -286,25 +328,6 @@ class Job:
         ```
         """
         self.commands.extend(commands)
-
-    def set_dependency_sep(self: Self, sep: str) -> Self:  # type: ignore
-        """Change the dependencies seperator (',' or '?').
-
-        Parameters
-        ----------
-        sep : str
-            The seperator.
-
-        Returns
-        -------
-        Self
-            Returns the `self` instance.
-        """
-        if sep not in (",", "?"):
-            print("Only ',' , '?' dependency seperators may be used!")
-            return self
-        self._dep_sep = sep
-        return self
 
     def get_script_body(self) -> str:
         """Get the body of the script that will be submited, i.e. the equivalent
@@ -384,14 +407,14 @@ class Job:
         )
         return cmd
 
-    def submit(self) -> Self:  # type: ignore
+    def submit(self) -> Self:
         """Submits this corrend job. In case of dependencies that were pass as `Job`
         objects, the `submit` method will be executed for the all the dependencies that
         were not submitted.
 
         Returns
         -------
-        Self
+        Job
             Returns the `self` instance.
         """
         for _, dep, _ in self._deps:
@@ -451,12 +474,8 @@ class Job:
         return "\n".join(self.commands)
 
     def _dep_list_str(self) -> str:
-        deps = defaultdict(list)
-        for after, dep, time in self._deps:
-            deps[f"after{after}" if after != "singleton" else after].append((dep, time))
-
         deps_list = []
-        for after, value in deps.items():
+        for after, value in self._deps.items():
             if after == "singleton":
                 deps_list.append("singleton")
                 continue

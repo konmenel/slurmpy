@@ -3,15 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.8.1" />
+<meta name="generator" content="pdoc 0.10.0" />
 <title>slurmpy API documentation</title>
 <meta name="description" content="" />
-<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
-<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
-<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
 <style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
 </head>
 <body>
 <main>
@@ -45,16 +47,6 @@ __all__ = [&#34;Job&#34;, &#34;__version__&#34;]</code></pre>
 </code></dt>
 <dd>
 <div class="desc"><p>Object that manages the job creation and submission of <code>sbatch</code>.</p>
-<h2 id="attributes">Attributes</h2>
-<dl>
-<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
-<dd>Optional, each job can have a name identification purposes.</dd>
-<dt><strong><code>shebang</code></strong> :&ensp;<code>str</code></dt>
-<dd>The shebang that will be used in the submission script.</dd>
-<dt><strong><code>commands</code></strong> :&ensp;<code>list</code> of <code>str</code></dt>
-<dd>A list of the commands that will be excecuted when the job is
-allocated.</dd>
-</dl>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>name</code></strong> :&ensp;<code>str</code>, optional</dt>
@@ -71,24 +63,36 @@ keep with python syntax, any hyphen (-) would be replaced with unterscore
 (_). Also, the starting hyphen or double hyphen (<code>-</code> or <code>--</code>) be be omitted.
 For instance, the arguments <code>--ntasks=1</code>, <code>--cpus-per-task=10</code> may be passed
 when creating the object as <code>Job(ntasks=1, cpus_per_task=10)</code>.</dd>
-</dl></div>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python">from slurmpy import Job
+
+job = Job(
+    commands=[&quot;echo hello&quot;, &quot;echo world&quot;],
+    account=&quot;myaccount&quot;,
+    ntasks=2,
+    cpus_per_task=20,
+    t=&quot;00:10:00&quot;
+)
+job.submit()
+</code></pre>
+<p>The python code is equivalent to the bash script below:</p>
+<pre><code class="language-bash">#!/bin/bash -l
+
+#SBATCH --account=myaccount
+#SBATCH --ntasks=2
+#SBATCH --cpus-per-task=20
+#SBATCH -t 00:10:00
+
+echo hello
+echo world
+</code></pre></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Job:
-    &#34;&#34;&#34;Object that manages the job creation and submission of `sbatch`.
-
-    Attributes
-    ----------
-    name : str
-        Optional, each job can have a name identification purposes.
-    shebang : str
-        The shebang that will be used in the submission script.
-    commands : list of str
-        A list of the commands that will be excecuted when the job is
-        allocated.
-    &#34;&#34;&#34;
+    &#34;&#34;&#34;Object that manages the job creation and submission of `sbatch`.&#34;&#34;&#34;
 
     # Public
     name: str
@@ -98,13 +102,11 @@ when creating the object as <code>Job(ntasks=1, cpus_per_task=10)</code>.</dd>
     # Private
     _job_id: Optional[int]
     _args: dict[str, Optional[str]]
-    # _deps format: (&lt;after&gt;, &lt;job-instance&gt;, &lt;time&gt;)
-    # i.e. (&#39;ok&#39;, jobx, None) or (&#39;&#39;, jobx, 10)
-    _deps: list[tuple[str, Job | str, Optional[int]]]
+    _deps: dict[str, list[tuple[Job | str, Optional[int]]]]
     _dep_sep: str  # Default &#39;,&#39;
 
     def __init__(
-        self: Self,  # type: ignore
+        self,
         name=&#34;&#34;,
         shebang=&#34;/bin/bash -l&#34;,
         commands: list[str] = None,
@@ -127,12 +129,40 @@ when creating the object as <code>Job(ntasks=1, cpus_per_task=10)</code>.</dd>
             (_). Also, the starting hyphen or double hyphen (`-` or `--`) be be omitted.
             For instance, the arguments `--ntasks=1`, `--cpus-per-task=10` may be passed
             when creating the object as `Job(ntasks=1, cpus_per_task=10)`.
+
+        Examples
+        --------
+        ```python
+        from slurmpy import Job
+
+        job = Job(
+            commands=[&#34;echo hello&#34;, &#34;echo world&#34;],
+            account=&#34;myaccount&#34;,
+            ntasks=2,
+            cpus_per_task=20,
+            t=&#34;00:10:00&#34;
+        )
+        job.submit()
+        ```
+
+        The python code is equivalent to the bash script below:
+        ```bash
+        #!/bin/bash -l
+
+        #SBATCH --account=myaccount
+        #SBATCH --ntasks=2
+        #SBATCH --cpus-per-task=20
+        #SBATCH -t 00:10:00
+
+        echo hello
+        echo world
+        ```
         &#34;&#34;&#34;
         self.name = name
         self.shebang = shebang
         self.commands = list(commands) if commands is not None else []
         self._job_id = None
-        self._deps = []
+        self._deps = defaultdict(list)
         self._dep_sep = &#34;,&#34;
 
         self._args = {}
@@ -157,7 +187,35 @@ when creating the object as <code>Job(ntasks=1, cpus_per_task=10)</code>.</dd>
             print(&#34;[WARNING] Job has not been submitted yet!&#34;)
         return self._job_id
 
-    def add_arguments(self: Self, **kwargs) -&gt; Self:  # type: ignore
+    @property
+    def dep_sep(self) -&gt; str:
+        &#34;&#34;&#34;The dependencies seperator, either &#39;,&#39; or &#39;?&#39;.&#34;&#34;&#34;
+        return self._dep_sep
+
+    @dep_sep.setter
+    def dep_sep(self, sep: str) -&gt; None:
+        if sep not in (&#34;,&#34;, &#34;?&#34;):
+            print(&#34;Only &#39;,&#39; , &#39;?&#39; dependency seperators may be used!&#34;)
+            return self
+        self._dep_sep = sep
+
+    def set_dependency_sep(self, sep: str) -&gt; Self:
+        &#34;&#34;&#34;Change the dependencies seperator to &#39;,&#39; or &#39;?&#39;.
+
+        Parameters
+        ----------
+        sep : str
+            The seperator.
+
+        Returns
+        -------
+        Job
+            Returns the `self` instance.
+        &#34;&#34;&#34;
+        self.dep_sep = sep
+        return self
+
+    def add_arguments(self, **kwargs) -&gt; Self:
         &#34;&#34;&#34;Add an argument to sbatch.
 
         Parameters
@@ -171,7 +229,7 @@ when creating the object as <code>Job(ntasks=1, cpus_per_task=10)</code>.</dd>
 
         Returns
         -------
-        Self
+        Job
             Returns the `self` instance.
 
         Examples
@@ -196,7 +254,7 @@ when creating the object as <code>Job(ntasks=1, cpus_per_task=10)</code>.</dd>
             self._args[key] = value
         return self
 
-    def remove_arguments(self: Self, *args: str) -&gt; Self:  # type: ignore
+    def remove_arguments(self, *args: str) -&gt; Self:
         &#34;&#34;&#34;Add an argument to sbatch.
 
         Parameters
@@ -209,7 +267,7 @@ when creating the object as <code>Job(ntasks=1, cpus_per_task=10)</code>.</dd>
 
         Returns
         -------
-        Self
+        Job
             Returns the `self` instance.
         &#34;&#34;&#34;
         for key in args:
@@ -218,7 +276,7 @@ when creating the object as <code>Job(ntasks=1, cpus_per_task=10)</code>.</dd>
                 self._args.pop(key)
         return self
 
-    def add_account(self: Self, account: str) -&gt; Self:  # type: ignore
+    def add_account(self, account: str) -&gt; Self:
         &#34;&#34;&#34;Add an account argument to `sbatch`, i.e. `--account`.
 
         Parameters
@@ -228,7 +286,7 @@ when creating the object as <code>Job(ntasks=1, cpus_per_task=10)</code>.</dd>
 
         Returns
         -------
-        Self
+        Job
             Returns the `self` instance.
         &#34;&#34;&#34;
         for arg in (&#34;-A&#34;, &#34;--account&#34;):
@@ -254,14 +312,14 @@ when creating the object as <code>Job(ntasks=1, cpus_per_task=10)</code>.</dd>
         )
 
     def add_dependency(
-        self: Self,  # type: ignore
+        self,
         after: str,
         dep: Job | str | int,
         time: Optional[int | str] = None,
-    ) -&gt; Self:  # type: ignore
+    ) -&gt; Self:
         &#34;&#34;&#34;Adds a dependency to this job. The dependency can be a string or an int
         inticating the job id if the dependency. In the case of a dependency that
-        has not been submitted yet, the dependency can be a different object of this
+        has not been submitted yet, the dependency can be a different object of the
         `Job` class.
 
         Parameters
@@ -287,9 +345,12 @@ when creating the object as <code>Job(ntasks=1, cpus_per_task=10)</code>.</dd>
 
         Returns
         -------
-        Self
+        Job
             Returns the `self` instance.
         &#34;&#34;&#34;
+        if dep is self:
+            print(&#34;[WARNING] Dependency cannot be the same some job as this one.&#34;)
+            return self
         if after == &#34;singleton&#34;:
             return self.add_singleton_dependency()
         if after is None:
@@ -300,22 +361,22 @@ when creating the object as <code>Job(ntasks=1, cpus_per_task=10)</code>.</dd>
             dep = str(dep)
         if after and time:
             time = None
-
-        after = after.lower()
-        self._deps.append((after, dep, time))
+        after = f&#34;after{after.lower()}&#34;
+        self._deps[after].append((dep, time))
         return self
 
-    def add_singleton_dependency(self: Self) -&gt; Self:  # type: ignore
+    def add_singleton_dependency(self) -&gt; Self:
         &#34;&#34;&#34;Adds a singleton dependency to this job.
 
         Returns
         -------
-        Self
+        Job
             Returns the `self` instance.
         &#34;&#34;&#34;
-        self._deps.append((&#34;singleton&#34;, None, None))
+        self._deps[&#34;singleton&#34;] = []
+        return self
 
-    def add_commands(self: Self, *commands: str) -&gt; Self:  # type: ignore
+    def add_commands(self, *commands: str) -&gt; Self:
         &#34;&#34;&#34;Add commands that will be excecuted when the job begins. Each command
         must be a valid command of the shell that is being used, i.e. bash by default.
         Also, each command will be treated as a seperate line in the equivalent shell
@@ -328,7 +389,7 @@ when creating the object as <code>Job(ntasks=1, cpus_per_task=10)</code>.</dd>
 
         Returns
         -------
-        Self
+        Job
             Returns the `self` instance.
 
         Examples
@@ -348,25 +409,6 @@ when creating the object as <code>Job(ntasks=1, cpus_per_task=10)</code>.</dd>
         ```
         &#34;&#34;&#34;
         self.commands.extend(commands)
-
-    def set_dependency_sep(self: Self, sep: str) -&gt; Self:  # type: ignore
-        &#34;&#34;&#34;Change the dependencies seperator (&#39;,&#39; or &#39;?&#39;).
-
-        Parameters
-        ----------
-        sep : str
-            The seperator.
-
-        Returns
-        -------
-        Self
-            Returns the `self` instance.
-        &#34;&#34;&#34;
-        if sep not in (&#34;,&#34;, &#34;?&#34;):
-            print(&#34;Only &#39;,&#39; , &#39;?&#39; dependency seperators may be used!&#34;)
-            return self
-        self._dep_sep = sep
-        return self
 
     def get_script_body(self) -&gt; str:
         &#34;&#34;&#34;Get the body of the script that will be submited, i.e. the equivalent
@@ -446,14 +488,14 @@ when creating the object as <code>Job(ntasks=1, cpus_per_task=10)</code>.</dd>
         )
         return cmd
 
-    def submit(self) -&gt; Self:  # type: ignore
+    def submit(self) -&gt; Self:
         &#34;&#34;&#34;Submits this corrend job. In case of dependencies that were pass as `Job`
         objects, the `submit` method will be executed for the all the dependencies that
         were not submitted.
 
         Returns
         -------
-        Self
+        Job
             Returns the `self` instance.
         &#34;&#34;&#34;
         for _, dep, _ in self._deps:
@@ -513,12 +555,8 @@ when creating the object as <code>Job(ntasks=1, cpus_per_task=10)</code>.</dd>
         return &#34;\n&#34;.join(self.commands)
 
     def _dep_list_str(self) -&gt; str:
-        deps = defaultdict(list)
-        for after, dep, time in self._deps:
-            deps[f&#34;after{after}&#34; if after != &#34;singleton&#34; else after].append((dep, time))
-
         deps_list = []
-        for after, value in deps.items():
+        for after, value in self._deps.items():
             if after == &#34;singleton&#34;:
                 deps_list.append(&#34;singleton&#34;)
                 continue
@@ -543,9 +581,24 @@ when creating the object as <code>Job(ntasks=1, cpus_per_task=10)</code>.</dd>
         dep_str = f&#34;-d {self._dep_list_str()}&#34;
         return dep_str</code></pre>
 </details>
+<h3>Class variables</h3>
+<dl>
+<dt id="slurmpy.Job.commands"><code class="name">var <span class="ident">commands</span> : list[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="slurmpy.Job.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="slurmpy.Job.shebang"><code class="name">var <span class="ident">shebang</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
 <h3>Instance variables</h3>
 <dl>
-<dt id="slurmpy.Job.args"><code class="name">var <span class="ident">args</span> : dict[str, typing.Optional[str]]</code></dt>
+<dt id="slurmpy.Job.args"><code class="name">var <span class="ident">args</span> : dict[str, Optional[str]]</code></dt>
 <dd>
 <div class="desc"><p>dict with str keys and optional str values : The dictionary of all arguments
 that will be passed to sbatch using the <code>SBATCH</code> directive.</p></div>
@@ -559,6 +612,19 @@ def args(self) -&gt; dict[str, Optional[str]]:
     that will be passed to sbatch using the `SBATCH` directive.
     &#34;&#34;&#34;
     return self._args</code></pre>
+</details>
+</dd>
+<dt id="slurmpy.Job.dep_sep"><code class="name">var <span class="ident">dep_sep</span> : str</code></dt>
+<dd>
+<div class="desc"><p>The dependencies seperator, either ',' or '?'.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def dep_sep(self) -&gt; str:
+    &#34;&#34;&#34;The dependencies seperator, either &#39;,&#39; or &#39;?&#39;.&#34;&#34;&#34;
+    return self._dep_sep</code></pre>
 </details>
 </dd>
 <dt id="slurmpy.Job.job_id"><code class="name">var <span class="ident">job_id</span> : Optional[int]</code></dt>
@@ -584,7 +650,7 @@ def job_id(self) -&gt; Optional[int]:
 <h3>Methods</h3>
 <dl>
 <dt id="slurmpy.Job.add_account"><code class="name flex">
-<span>def <span class="ident">add_account</span></span>(<span>self: Self, account: str) -> Self</span>
+<span>def <span class="ident">add_account</span></span>(<span>self, account: str) ‑> typing.Self</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Add an account argument to <code>sbatch</code>, i.e. <code>--account</code>.</p>
@@ -595,14 +661,14 @@ def job_id(self) -&gt; Optional[int]:
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>Self</code></dt>
+<dt><code><a title="slurmpy.Job" href="#slurmpy.Job">Job</a></code></dt>
 <dd>Returns the <code>self</code> instance.</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def add_account(self: Self, account: str) -&gt; Self:  # type: ignore
+<pre><code class="python">def add_account(self, account: str) -&gt; Self:
     &#34;&#34;&#34;Add an account argument to `sbatch`, i.e. `--account`.
 
     Parameters
@@ -612,7 +678,7 @@ def job_id(self) -&gt; Optional[int]:
 
     Returns
     -------
-    Self
+    Job
         Returns the `self` instance.
     &#34;&#34;&#34;
     for arg in (&#34;-A&#34;, &#34;--account&#34;):
@@ -623,7 +689,7 @@ def job_id(self) -&gt; Optional[int]:
 </details>
 </dd>
 <dt id="slurmpy.Job.add_arguments"><code class="name flex">
-<span>def <span class="ident">add_arguments</span></span>(<span>self: Self, **kwargs) -> Self</span>
+<span>def <span class="ident">add_arguments</span></span>(<span>self, **kwargs) ‑> typing.Self</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Add an argument to sbatch.</p>
@@ -638,7 +704,7 @@ as <code>job.add_arguments(ntasks=1, cpus_per_task=10)</code>.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>Self</code></dt>
+<dt><code><a title="slurmpy.Job" href="#slurmpy.Job">Job</a></code></dt>
 <dd>Returns the <code>self</code> instance.</dd>
 </dl>
 <h2 id="examples">Examples</h2>
@@ -657,7 +723,7 @@ job.add_argument(ntasks=1)
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def add_arguments(self: Self, **kwargs) -&gt; Self:  # type: ignore
+<pre><code class="python">def add_arguments(self, **kwargs) -&gt; Self:
     &#34;&#34;&#34;Add an argument to sbatch.
 
     Parameters
@@ -671,7 +737,7 @@ job.add_argument(ntasks=1)
 
     Returns
     -------
-    Self
+    Job
         Returns the `self` instance.
 
     Examples
@@ -698,7 +764,7 @@ job.add_argument(ntasks=1)
 </details>
 </dd>
 <dt id="slurmpy.Job.add_commands"><code class="name flex">
-<span>def <span class="ident">add_commands</span></span>(<span>self: Self, *commands: str) -> Self</span>
+<span>def <span class="ident">add_commands</span></span>(<span>self, *commands: str) ‑> typing.Self</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Add commands that will be excecuted when the job begins. Each command
@@ -712,7 +778,7 @@ script.</p>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>Self</code></dt>
+<dt><code><a title="slurmpy.Job" href="#slurmpy.Job">Job</a></code></dt>
 <dd>Returns the <code>self</code> instance.</dd>
 </dl>
 <h2 id="examples">Examples</h2>
@@ -731,7 +797,7 @@ echo world
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def add_commands(self: Self, *commands: str) -&gt; Self:  # type: ignore
+<pre><code class="python">def add_commands(self, *commands: str) -&gt; Self:
     &#34;&#34;&#34;Add commands that will be excecuted when the job begins. Each command
     must be a valid command of the shell that is being used, i.e. bash by default.
     Also, each command will be treated as a seperate line in the equivalent shell
@@ -744,7 +810,7 @@ echo world
 
     Returns
     -------
-    Self
+    Job
         Returns the `self` instance.
 
     Examples
@@ -767,12 +833,12 @@ echo world
 </details>
 </dd>
 <dt id="slurmpy.Job.add_dependency"><code class="name flex">
-<span>def <span class="ident">add_dependency</span></span>(<span>self: Self, after: str, dep: Job | str | int, time: Optional[int | str] = None) -> Self</span>
+<span>def <span class="ident">add_dependency</span></span>(<span>self, after: str, dep: <a title="slurmpy.Job" href="#slurmpy.Job">Job</a> | str | int, time: Optional[int | str] = None) ‑> Self</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Adds a dependency to this job. The dependency can be a string or an int
 inticating the job id if the dependency. In the case of a dependency that
-has not been submitted yet, the dependency can be a different object of this
+has not been submitted yet, the dependency can be a different object of the
 <code><a title="slurmpy.Job" href="#slurmpy.Job">Job</a></code> class.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
@@ -798,7 +864,7 @@ concelled.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>Self</code></dt>
+<dt><code><a title="slurmpy.Job" href="#slurmpy.Job">Job</a></code></dt>
 <dd>Returns the <code>self</code> instance.</dd>
 </dl></div>
 <details class="source">
@@ -806,14 +872,14 @@ concelled.</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def add_dependency(
-    self: Self,  # type: ignore
+    self,
     after: str,
     dep: Job | str | int,
     time: Optional[int | str] = None,
-) -&gt; Self:  # type: ignore
+) -&gt; Self:
     &#34;&#34;&#34;Adds a dependency to this job. The dependency can be a string or an int
     inticating the job id if the dependency. In the case of a dependency that
-    has not been submitted yet, the dependency can be a different object of this
+    has not been submitted yet, the dependency can be a different object of the
     `Job` class.
 
     Parameters
@@ -839,9 +905,12 @@ concelled.</dd>
 
     Returns
     -------
-    Self
+    Job
         Returns the `self` instance.
     &#34;&#34;&#34;
+    if dep is self:
+        print(&#34;[WARNING] Dependency cannot be the same some job as this one.&#34;)
+        return self
     if after == &#34;singleton&#34;:
         return self.add_singleton_dependency()
     if after is None:
@@ -852,39 +921,39 @@ concelled.</dd>
         dep = str(dep)
     if after and time:
         time = None
-
-    after = after.lower()
-    self._deps.append((after, dep, time))
+    after = f&#34;after{after.lower()}&#34;
+    self._deps[after].append((dep, time))
     return self</code></pre>
 </details>
 </dd>
 <dt id="slurmpy.Job.add_singleton_dependency"><code class="name flex">
-<span>def <span class="ident">add_singleton_dependency</span></span>(<span>self: Self) -> Self</span>
+<span>def <span class="ident">add_singleton_dependency</span></span>(<span>self) ‑> typing.Self</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Adds a singleton dependency to this job.</p>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>Self</code></dt>
+<dt><code><a title="slurmpy.Job" href="#slurmpy.Job">Job</a></code></dt>
 <dd>Returns the <code>self</code> instance.</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def add_singleton_dependency(self: Self) -&gt; Self:  # type: ignore
+<pre><code class="python">def add_singleton_dependency(self) -&gt; Self:
     &#34;&#34;&#34;Adds a singleton dependency to this job.
 
     Returns
     -------
-    Self
+    Job
         Returns the `self` instance.
     &#34;&#34;&#34;
-    self._deps.append((&#34;singleton&#34;, None, None))</code></pre>
+    self._deps[&#34;singleton&#34;] = []
+    return self</code></pre>
 </details>
 </dd>
 <dt id="slurmpy.Job.get_args_str"><code class="name flex">
-<span>def <span class="ident">get_args_str</span></span>(<span>self) -> str</span>
+<span>def <span class="ident">get_args_str</span></span>(<span>self) ‑> str</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns all the arguments in a string that can be used in the command-line
@@ -913,7 +982,7 @@ i.e. <code>--ntasks=1 -N 2</code></p>
 </details>
 </dd>
 <dt id="slurmpy.Job.get_full_command"><code class="name flex">
-<span>def <span class="ident">get_full_command</span></span>(<span>self) -> str</span>
+<span>def <span class="ident">get_full_command</span></span>(<span>self) ‑> str</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns the full <code>sbatch</code> command that will be ran on job submission.</p>
@@ -990,7 +1059,7 @@ echo hello world
 </details>
 </dd>
 <dt id="slurmpy.Job.get_script_body"><code class="name flex">
-<span>def <span class="ident">get_script_body</span></span>(<span>self) -> str</span>
+<span>def <span class="ident">get_script_body</span></span>(<span>self) ‑> str</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Get the body of the script that will be submited, i.e. the equivalent
@@ -1057,7 +1126,7 @@ echo hello world
 </details>
 </dd>
 <dt id="slurmpy.Job.remove_arguments"><code class="name flex">
-<span>def <span class="ident">remove_arguments</span></span>(<span>self: Self, *args: str) -> Self</span>
+<span>def <span class="ident">remove_arguments</span></span>(<span>self, *args: str) ‑> typing.Self</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Add an argument to sbatch.</p>
@@ -1071,14 +1140,14 @@ like by calling <code>job.remove_arguments("ntasks", "cpus-per-tasks")</code>.</
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>Self</code></dt>
+<dt><code><a title="slurmpy.Job" href="#slurmpy.Job">Job</a></code></dt>
 <dd>Returns the <code>self</code> instance.</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def remove_arguments(self: Self, *args: str) -&gt; Self:  # type: ignore
+<pre><code class="python">def remove_arguments(self, *args: str) -&gt; Self:
     &#34;&#34;&#34;Add an argument to sbatch.
 
     Parameters
@@ -1091,7 +1160,7 @@ like by calling <code>job.remove_arguments("ntasks", "cpus-per-tasks")</code>.</
 
     Returns
     -------
-    Self
+    Job
         Returns the `self` instance.
     &#34;&#34;&#34;
     for key in args:
@@ -1102,10 +1171,10 @@ like by calling <code>job.remove_arguments("ntasks", "cpus-per-tasks")</code>.</
 </details>
 </dd>
 <dt id="slurmpy.Job.set_dependency_sep"><code class="name flex">
-<span>def <span class="ident">set_dependency_sep</span></span>(<span>self: Self, sep: str) -> Self</span>
+<span>def <span class="ident">set_dependency_sep</span></span>(<span>self, sep: str) ‑> typing.Self</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Change the dependencies seperator (',' or '?').</p>
+<div class="desc"><p>Change the dependencies seperator to ',' or '?'.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>sep</code></strong> :&ensp;<code>str</code></dt>
@@ -1113,15 +1182,15 @@ like by calling <code>job.remove_arguments("ntasks", "cpus-per-tasks")</code>.</
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>Self</code></dt>
+<dt><code><a title="slurmpy.Job" href="#slurmpy.Job">Job</a></code></dt>
 <dd>Returns the <code>self</code> instance.</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def set_dependency_sep(self: Self, sep: str) -&gt; Self:  # type: ignore
-    &#34;&#34;&#34;Change the dependencies seperator (&#39;,&#39; or &#39;?&#39;).
+<pre><code class="python">def set_dependency_sep(self, sep: str) -&gt; Self:
+    &#34;&#34;&#34;Change the dependencies seperator to &#39;,&#39; or &#39;?&#39;.
 
     Parameters
     ----------
@@ -1130,18 +1199,15 @@ like by calling <code>job.remove_arguments("ntasks", "cpus-per-tasks")</code>.</
 
     Returns
     -------
-    Self
+    Job
         Returns the `self` instance.
     &#34;&#34;&#34;
-    if sep not in (&#34;,&#34;, &#34;?&#34;):
-        print(&#34;Only &#39;,&#39; , &#39;?&#39; dependency seperators may be used!&#34;)
-        return self
-    self._dep_sep = sep
+    self.dep_sep = sep
     return self</code></pre>
 </details>
 </dd>
 <dt id="slurmpy.Job.submit"><code class="name flex">
-<span>def <span class="ident">submit</span></span>(<span>self) -> Self</span>
+<span>def <span class="ident">submit</span></span>(<span>self) ‑> typing.Self</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Submits this corrend job. In case of dependencies that were pass as <code><a title="slurmpy.Job" href="#slurmpy.Job">Job</a></code>
@@ -1149,21 +1215,21 @@ objects, the <code>submit</code> method will be executed for the all the depende
 were not submitted.</p>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>Self</code></dt>
+<dt><code><a title="slurmpy.Job" href="#slurmpy.Job">Job</a></code></dt>
 <dd>Returns the <code>self</code> instance.</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def submit(self) -&gt; Self:  # type: ignore
+<pre><code class="python">def submit(self) -&gt; Self:
     &#34;&#34;&#34;Submits this corrend job. In case of dependencies that were pass as `Job`
     objects, the `submit` method will be executed for the all the dependencies that
     were not submitted.
 
     Returns
     -------
-    Self
+    Job
         Returns the `self` instance.
     &#34;&#34;&#34;
     for _, dep, _ in self._deps:
@@ -1201,12 +1267,16 @@ were not submitted.</p>
 <li><code><a title="slurmpy.Job.add_dependency" href="#slurmpy.Job.add_dependency">add_dependency</a></code></li>
 <li><code><a title="slurmpy.Job.add_singleton_dependency" href="#slurmpy.Job.add_singleton_dependency">add_singleton_dependency</a></code></li>
 <li><code><a title="slurmpy.Job.args" href="#slurmpy.Job.args">args</a></code></li>
+<li><code><a title="slurmpy.Job.commands" href="#slurmpy.Job.commands">commands</a></code></li>
+<li><code><a title="slurmpy.Job.dep_sep" href="#slurmpy.Job.dep_sep">dep_sep</a></code></li>
 <li><code><a title="slurmpy.Job.get_args_str" href="#slurmpy.Job.get_args_str">get_args_str</a></code></li>
 <li><code><a title="slurmpy.Job.get_full_command" href="#slurmpy.Job.get_full_command">get_full_command</a></code></li>
 <li><code><a title="slurmpy.Job.get_script_body" href="#slurmpy.Job.get_script_body">get_script_body</a></code></li>
 <li><code><a title="slurmpy.Job.job_id" href="#slurmpy.Job.job_id">job_id</a></code></li>
+<li><code><a title="slurmpy.Job.name" href="#slurmpy.Job.name">name</a></code></li>
 <li><code><a title="slurmpy.Job.remove_arguments" href="#slurmpy.Job.remove_arguments">remove_arguments</a></code></li>
 <li><code><a title="slurmpy.Job.set_dependency_sep" href="#slurmpy.Job.set_dependency_sep">set_dependency_sep</a></code></li>
+<li><code><a title="slurmpy.Job.shebang" href="#slurmpy.Job.shebang">shebang</a></code></li>
 <li><code><a title="slurmpy.Job.submit" href="#slurmpy.Job.submit">submit</a></code></li>
 </ul>
 </li>
@@ -1216,9 +1286,7 @@ were not submitted.</p>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
 </footer>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad()</script>
 </body>
 </html>
