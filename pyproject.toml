@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "slurmpy"
-version = "0.0.1"
+dynamic = ["version"]
 authors = [
     {name = "Constantinos Menelaou", email = "konmenel@gmail.com"},
 ]
@@ -16,3 +16,6 @@ dependencies = []
 [project.optional-dependencies]
 dev = ["pytest", "black", "flake8", "pdoc3"]
 test = ["pytest"]
+
+[tool.setuptools.dynamic]
+version = {attr = "slurmpy.__version__"}
