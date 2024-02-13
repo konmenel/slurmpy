@@ -1,5 +1,5 @@
 # slurmpy
-A simple python interface for working with SLURM because I am tired of bash
+A simple python interface for working with SLURM because I am tired of bash.
 
 ## Installation
 To install the library first clone this repo and cd the directory
@@ -91,6 +91,9 @@ job.commands.append("cat hello.txt")
 ```
 
 ### Adding dependencies
+Dependency management is the true reason why this library exists. This model
+allow any job to be depended an another job even before the jobs are submited.
+
 Dependencies can be added using the method `add_dependency`. For instance,
 if we would like to create a dependency of type `afterok` of a job with id 
 1234 we can do it using the following:
@@ -98,15 +101,19 @@ if we would like to create a dependency of type `afterok` of a job with id
 job = Job("Depended job").add_dependency(after="ok", dep=123)
 ```
 
-In the above we need to know beforehand id of the dependency. However, if the
-dependency has not been submitted yet we can pass the a `Job` object as the
-dependency:
+This is equivalent to what we would do with `sbatch`. In the above we need
+to know beforehand id of the dependency. However, we don't know the job's id
+is it hasn't been submitted yet. What we can do is pass the a `Job` object instead
+as the dependency and the library will do the rest:
 ```python
 job1 = Job("First Job")
 
 job2 = Job("Second Job")
 job2.add_dependency(after="ok", dep=job1)
 ```
+
+See the [Job submission](#job-submission) sections for information on how the dependencies are
+submitted
 
 ### Job submission
 To submit the job simple call the method `submit`. In the case of unsubmitted
