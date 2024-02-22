@@ -21,7 +21,7 @@ class Job:
     # Private
     _job_id: Optional[int]
     _args: dict[str, Optional[str]]
-    _deps: dict[str, list[tuple[Job | str, Optional[int]]]]
+    _deps: dict[str, list[tuple[Job | str, Optional[int]]]]     # Format: after_str: list of (Job or job_id, time or None)
     _dep_sep: str  # Default ','
 
     def __init__(
@@ -417,9 +417,10 @@ class Job:
         Job
             Returns the `self` instance.
         """
-        for _, dep, _ in self._deps:
-            if isinstance(dep, Job) and dep._job_id is None:
-                dep.submit()
+        for dep_list in self._deps.values():
+            for dep in dep_list:
+                if isinstance(dep, Job) and dep._job_id is None:
+                    dep.submit()
 
         cmd = self.get_full_command()
         proc = subprocess.run(cmd, shell=True, check=True, stdout=subprocess.PIPE)

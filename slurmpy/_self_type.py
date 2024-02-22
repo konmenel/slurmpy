@@ -107,7 +107,7 @@ def Self(self, parameters):
 
     Example::
 
-        from typing import Self
+        from _self_type import Self
 
         class Foo:
             def return_self(self) -> Self:
