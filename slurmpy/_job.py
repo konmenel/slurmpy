@@ -396,14 +396,14 @@ class Job:
         #SBATCH --ntasks=1
 
         echo hello world
-        'EOF'
+        EOF
         ```
         """
         dep_str = self._dep_str()
         if dep_str:
             dep_str += " "
         cmd = "\n".join(
-            (f"sbatch --parsable {dep_str}<<'EOF'", self.get_script_body(), "'EOF'")
+            (f"sbatch --parsable {dep_str}<<'EOF'", self.get_script_body(), "EOF")
         )
         return cmd
 
