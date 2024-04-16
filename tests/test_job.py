@@ -88,7 +88,7 @@ class TestJob:
         job5 = Job("Job4").add_singleton_dependency()
 
         cmd_head = "sbatch --parsable -d "
-        cmd_tail = " <<'EOF'\n#!/bin/bash -l\n'EOF'"
+        cmd_tail = " <<'EOF'\n#!/bin/bash -l\nEOF"
 
         assert job2._deps["afterany"][0][0] is job1
         assert job2._deps["afterany"][0][1] is None

@@ -4,6 +4,7 @@ from collections import defaultdict
 from collections.abc import Iterable
 import subprocess
 from typing import Optional, Sequence
+
 try:
     from typing import Self
 except ImportError:
@@ -11,17 +12,33 @@ except ImportError:
 
 
 class Job:
-    """Object that manages the job creation and submission of `sbatch`."""
+    """Object that manages the job creation and submission of `sbatch`.
+
+    Attributes
+    ----------
+    name : str
+        The name of the job.
+    shebang : str
+        The shebang to be used (without the starting "#!").
+    commands : list[str]
+        The list of the commands that will be run by the job.
+    allow_expansions : bool
+        If `True` the generated HereDoc will allow for bash
+        expansions. Default, `False`.
+    """
 
     # Public
     name: str
     shebang: str  # Default: /bin/bash -l
     commands: list[str]
+    allow_expansions: bool
 
     # Private
     _job_id: Optional[int]
     _args: dict[str, Optional[str]]
-    _deps: dict[str, list[tuple[Job | str, Optional[int]]]]     # Format: after_str: list of (Job or job_id, time or None)
+    _deps: dict[
+        str, list[tuple[Job | str, Optional[int]]]
+    ]  # Format: after_str: list of (Job or job_id, time or None)
     _dep_sep: str  # Default ','
 
     def __init__(
@@ -29,6 +46,7 @@ class Job:
         name="",
         shebang="/bin/bash -l",
         commands: list[str] = None,
+        allow_expansions: bool = False,
         **kwargs,
     ) -> None:
         """
@@ -42,6 +60,9 @@ class Job:
         commands : list of str, optional
             A list of the commands that will be excecuted when the script
             is submitted, by default None.
+        allow_expansions : bool
+            If `True` the generated HereDoc will allow for bash
+            expansions. Default, `False`.
         **kwargs
             Any argument of `sbatch` may be passed as a key word argument. However, to
             keep with python syntax, any hyphen (-) would be replaced with unterscore
@@ -80,6 +101,7 @@ class Job:
         self.name = name
         self.shebang = shebang
         self.commands = list(commands) if commands is not None else []
+        self.allow_expansions = allow_expansions
         self._job_id = None
         self._deps = defaultdict(list)
         self._dep_sep = ","
@@ -365,18 +387,24 @@ class Job:
             body += "\n\n" + self._commands_str()
         return body
 
-    def get_full_command(self) -> str:
+    def get_full_command(
+        self,
+        parsable_flag: bool = True,
+        delimiter: str = "EOF",
+    ) -> str:
         """Returns the full `sbatch` command that will be ran on job submission.
+
+        Parameters
+        ----------
+        parsable_flag : bool
+            If `False` the parsable flag (`--parsable`) is not included.
+        delimiter : str
+            The delimiter of the HereDoc, by default, "EOF"
 
         Returns
         -------
         str
             The full command.
-
-        Notes
-        -----
-        The `--parsable` option is always included as an argument to `sbatch`
-        for internal parsing purposes.
 
         Examples
         --------
@@ -399,18 +427,32 @@ class Job:
         EOF
         ```
         """
+        parsable = " --parsable " if parsable_flag else " "
+        quote = "'" if not self.allow_expansions else ""
         dep_str = self._dep_str()
         if dep_str:
             dep_str += " "
         cmd = "\n".join(
-            (f"sbatch --parsable {dep_str}<<'EOF'", self.get_script_body(), "EOF")
+            (
+                f"sbatch{parsable}{dep_str}<<{quote}{delimiter}{quote}",
+                self.get_script_body(),
+                delimiter,
+            )
         )
         return cmd
 
-    def submit(self) -> Self:
+    def submit(
+        self,
+        parsable: bool = False,
+    ) -> Self:
         """Submits this corrend job. In case of dependencies that were pass as `Job`
         objects, the `submit` method will be executed for the all the dependencies that
         were not submitted.
+
+        Parameters
+        ----------
+        parsable : bool
+            If `True` just the `jobid` is printed.
 
         Returns
         -------
@@ -418,16 +460,19 @@ class Job:
             Returns the `self` instance.
         """
         for dep_list in self._deps.values():
-            for dep in dep_list:
+            for dep, _ in dep_list:
                 if isinstance(dep, Job) and dep._job_id is None:
                     dep.submit()
 
-        cmd = self.get_full_command()
+        cmd = self.get_full_command(True)
         proc = subprocess.run(cmd, shell=True, check=True, stdout=subprocess.PIPE)
         jobid = proc.stdout.decode().strip()
         assert len(jobid) > 0, jobid
         self._job_id = int(jobid)
-        print(f"{f'{self.name}: ' if self.name else ''}Submitted batch job {jobid}")
+        if parsable:
+            print(jobid)
+        else:
+            print(f"{f'{self.name}: ' if self.name else ''}Submitted batch job {jobid}")
         return self
 
     # Private methods
