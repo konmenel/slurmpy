@@ -1,4 +1,5 @@
 """Copy-paste from python 3.11 so that the code works with older versions"""
+from __future__ import annotations
 from typing import Union
 import functools
 
